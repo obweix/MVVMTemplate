@@ -13,12 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.mvvmapplication.databinding.FragmentGoodsDetailBinding;
-import com.example.mvvmapplication.databinding.FragmentNotificationsBinding;
+import com.example.mvvmapplication.databinding.FragmentAlbumsDetailBinding;
+
 
 public class DetailFragment extends Fragment {
     private DetailViewModel detailViewModel;
-    private FragmentGoodsDetailBinding binding;
+    private FragmentAlbumsDetailBinding binding;
 
 
     @Nullable
@@ -26,7 +26,7 @@ public class DetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
          detailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
 
-        binding = FragmentGoodsDetailBinding.inflate(inflater, container, false);
+        binding = FragmentAlbumsDetailBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.detailTextview;
@@ -39,7 +39,7 @@ public class DetailFragment extends Fragment {
 
 //        Log.d("TAG", "onCreateView: " + getArguments().getInt("GOODS_ID"));
 
-        detailViewModel.setText( Integer.toString(getArguments().getInt("GOODS_ID")));
+        detailViewModel.setText( Integer.toString(getArguments().getInt("ALBUMS_ID")));
 
         return root;
     }

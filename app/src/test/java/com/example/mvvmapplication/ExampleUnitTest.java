@@ -4,10 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.example.mvvmapplication.bean.Albums;
 import com.example.mvvmapplication.bean.BaseBean;
-import com.example.mvvmapplication.bean.Goods;
 import com.example.mvvmapplication.bean.network.RetrofitClient;
-import com.example.mvvmapplication.bean.network.service.GoodsService;
+import com.example.mvvmapplication.bean.network.service.AlbumsService;
 
 import java.util.List;
 
@@ -23,11 +23,11 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
 
-        GoodsService goodsService = RetrofitClient.getInstance().getService(GoodsService.class);
+        AlbumsService albumsService = RetrofitClient.getInstance().getService(AlbumsService.class);
 
-        goodsService.getGoods().subscribe(new Consumer<BaseBean<List<Goods>>>() {
+        albumsService.getAlbums().subscribe(new Consumer<BaseBean<List<Albums>>>() {
                                               @Override
-                                              public void accept(BaseBean<List<Goods>> listBaseBean) throws Throwable {
+                                              public void accept(BaseBean<List<Albums>> listBaseBean) throws Throwable {
                                                   System.out.println(listBaseBean.toString());
                                               }
                                           }, new Consumer<Throwable>() {

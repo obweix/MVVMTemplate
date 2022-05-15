@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.mvvmapplication.R;
-import com.example.mvvmapplication.bean.Goods;
+import com.example.mvvmapplication.bean.Albums;
 import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
@@ -26,12 +26,12 @@ import java.util.List;
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
     private Context context;
-    private List<Goods> data;
+    private List<Albums> data;
     private RecyclerView recyclerView;
     private LayoutInflater layoutInflater;
     private OnItemClickListener listener;
 
-    public HomeRecyclerViewAdapter(RecyclerView recyclerView, Context context, List<Goods> data){
+    public HomeRecyclerViewAdapter(RecyclerView recyclerView, Context context, List<Albums> data){
         this.context = context;
         this.data = data;
         this.recyclerView = recyclerView;
@@ -49,7 +49,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    public void setGoods( List<Goods> data){
+    public void setAlbums( List<Albums> data){
         this.data.clear();
         this.data.addAll(data);
         notifyDataSetChanged();
@@ -70,11 +70,11 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Goods goods = data.get(position);
+        Albums Albums = data.get(position);
         int itemViewType = getItemViewType(position);
         switch (itemViewType){
             case R.layout.home_recycler_banner:
-                ((Banner) holder.itemView).setAdapter(new BannerImageAdapter<String>(goods.getBanners()) {
+                ((Banner) holder.itemView).setAdapter(new BannerImageAdapter<String>(Albums.getBanners()) {
                     @Override
                     public void onBindView(BannerImageHolder holder, String data, int position, int size) {
                         Glide.with(holder.itemView)
@@ -87,18 +87,18 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 break;
             case R.layout.home_recycler_text_image:
                 MultiViewHolder multiViewHolder = (MultiViewHolder) holder;
-                multiViewHolder.textview.setText(goods.getText());
+                multiViewHolder.textview.setText(Albums.getText());
                 Glide.with(holder.itemView)
-                        .load(goods.getImageUrl())
+                        .load(Albums.getImageUrl())
                         .apply(RequestOptions.centerCropTransform())
                         .into(multiViewHolder.imageView);
                 break;
             case R.layout.home_recycler_text:
-                ((TextView)holder.itemView).setText(goods.getText());
+                ((TextView)holder.itemView).setText(Albums.getText());
                 break;
             case R.layout.home_recycler_image:
                 Glide.with(holder.itemView)
-                        .load(goods.getImageUrl())
+                        .load(Albums.getImageUrl())
                         .apply(RequestOptions.centerCropTransform())
                         .into((ImageView) holder.itemView);
                 break;
@@ -107,12 +107,12 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        Goods goods = data.get(position);
-        if(goods.getBanners() != null){
+        Albums Albums = data.get(position);
+        if(Albums.getBanners() != null){
             return R.layout.home_recycler_banner;
-        }else if(goods.getImageUrl() == null){
+        }else if(Albums.getImageUrl() == null){
             return  R.layout.home_recycler_text;
-        }else if(goods.getText() == null){
+        }else if(Albums.getText() == null){
             return R.layout.home_recycler_image;
         }else{
             return R.layout.home_recycler_text_image;
@@ -149,6 +149,6 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public interface OnItemClickListener{
-        void onItemClick(Goods goods);
+        void onItemClick(Albums Albums);
     }
 }

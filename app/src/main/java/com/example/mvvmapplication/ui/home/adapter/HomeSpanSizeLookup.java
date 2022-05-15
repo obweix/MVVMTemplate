@@ -2,14 +2,14 @@ package com.example.mvvmapplication.ui.home.adapter;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.example.mvvmapplication.bean.Goods;
+import com.example.mvvmapplication.bean.Albums;
 
 import java.util.List;
 
 public class HomeSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
-    private final List<Goods> data;
+    private final List<Albums> data;
 
-    public HomeSpanSizeLookup(List<Goods> data){
+    public HomeSpanSizeLookup(List<Albums> data){
         this.data = data;
     }
 
@@ -18,8 +18,8 @@ public class HomeSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
         return data.get(position).getSpanSize();
     }
 
-    public void setGoods(List<Goods> goods){
+    public void setAlbums(List<Albums> albums){
         this.data.clear();
-        this.data.addAll(goods);
+        this.data.addAll(albums);
     }
 }

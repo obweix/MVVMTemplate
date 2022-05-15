@@ -27,7 +27,7 @@
         android:id="@+id/navigation_detial"
         android:name="com.example.mvvmapplication.ui.detail.DetailFragment"
         android:label="DetailPage"
-        tools:layout="@layout/fragment_goods_detail"
+        tools:layout="@layout/fragment_albums_detail"
         />
 
     <fragment

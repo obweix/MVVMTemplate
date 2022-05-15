@@ -23,15 +23,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.mvvmapplication.R;
-import com.example.mvvmapplication.bean.Goods;
+import com.example.mvvmapplication.bean.Albums;
 import com.example.mvvmapplication.databinding.FragmentHomeBinding;
+import com.example.mvvmapplication.ui.base.BaseFragment;
 import com.example.mvvmapplication.ui.home.adapter.HomeRecyclerViewAdapter;
 import com.example.mvvmapplication.ui.home.adapter.HomeSpanSizeLookup;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,HomeRecyclerViewAdapter.OnItemClickListener{
+public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,HomeRecyclerViewAdapter.OnItemClickListener{
     private static final String TAG = "HomeFragment";
 
     private HomeViewModel homeViewModel;
@@ -39,74 +40,69 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     private HomeRecyclerViewAdapter homeRecyclerViewAdapter;
     private HomeSpanSizeLookup homeSpanSizeLookup;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private GridLayoutManager gridLayoutManager;
+
+
+    private void init() {
+        binding.homeSwiperefresh.setOnRefreshListener(this);
+
+        List<Albums> albums = new ArrayList<Albums>();
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 4);
+        homeSpanSizeLookup = new HomeSpanSizeLookup(albums);
+        gridLayoutManager.setSpanSizeLookup(homeSpanSizeLookup);
+        binding.homeRecyclerview.setLayoutManager(gridLayoutManager);
+
+        homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(binding.homeRecyclerview,getActivity(),albums);
+        homeRecyclerViewAdapter.setOnItemClickListener(this);
+        binding.homeRecyclerview.setAdapter(homeRecyclerViewAdapter);
+
+        homeViewModel.getAlbums().observe(getViewLifecycleOwner(), new Observer<List<Albums>>() {
+            @Override
+            public void onChanged(List<Albums> albums) {
+                homeSpanSizeLookup.setAlbums(albums);
+                homeRecyclerViewAdapter.setAlbums(albums);
+                binding.homeSwiperefresh.setRefreshing(false);
+
+                binding.loadingText.setVisibility(View.INVISIBLE);
+            }
+        });
+
+
+        if(homeViewModel.getAlbums().getValue() == null){
+            homeViewModel.getAlbumsFromNetWork();
+        }
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-        initView();
+        init();
 
         return binding.getRoot();
     }
 
-    private void initView() {
-        binding.homeSwiperefresh.setOnRefreshListener(this);
-
-        List<Goods> goods = new ArrayList<Goods>();
-        gridLayoutManager = new GridLayoutManager(getActivity(),4);
-        homeSpanSizeLookup = new HomeSpanSizeLookup(goods);
-        gridLayoutManager.setSpanSizeLookup(homeSpanSizeLookup);
-        binding.homeRecyclerview.setLayoutManager(gridLayoutManager);
-
-        homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(binding.homeRecyclerview,getActivity(),goods);
-        homeRecyclerViewAdapter.setOnItemClickListener(this);
-        binding.homeRecyclerview.setAdapter(homeRecyclerViewAdapter);
-
-
-        homeViewModel.getGoods().observe(getViewLifecycleOwner(), new Observer<List<Goods>>() {
-            @Override
-            public void onChanged(List<Goods> goods) {
-                homeSpanSizeLookup.setGoods(goods);
-                homeRecyclerViewAdapter.setGoods(goods);
-                binding.homeSwiperefresh.setRefreshing(false);
-            }
-        });
-
-
-        if(homeViewModel.getGoods().getValue() == null){
-            homeViewModel.getGoodsFromNetWork();
-        }
-    }
 
     @Override
     public void onDestroyView() {
-        homeViewModel.cancelGetGoodsFromNetwork();
-
+        homeViewModel.cancelGetAlbumsFromNetwork();
         super.onDestroyView();
+
         binding = null;
     }
 
     @Override
     public void onRefresh() {
-        homeViewModel.getGoodsFromNetWork();
+        homeViewModel.getAlbumsFromNetWork();
     }
 
     @Override
-    public void onItemClick(Goods goods) {
+    public void onItemClick(Albums Albums) {
         Bundle bundle = new Bundle();
-        bundle.putInt("GOODS_ID",goods.getGoodsId());
-        NavOptions navOptions = new NavOptions.Builder()
-                .setPopUpTo(R.id.navigation_home,false)
-                .setEnterAnim(R.anim.slide_in_right)
-                .setPopEnterAnim(R.anim.slide_in_left)
-                .setExitAnim(R.anim.slide_out_left)
-                .setPopExitAnim(R.anim.slide_out_right)
-                .build();
-        Navigation.findNavController(getView()).navigate(R.id.navigation_detial,bundle,navOptions);
+        bundle.putInt("ALBUMS_ID",Albums.getAlbumsId());
+        navigate(getView(),R.id.navigation_home,R.id.navigation_detial,bundle);
     }
 }

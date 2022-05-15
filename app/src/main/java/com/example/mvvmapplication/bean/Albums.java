@@ -1,25 +1,28 @@
 package com.example.mvvmapplication.bean;
 
+/**
+ * Copyright 2022 bejson.com
+ */
 import java.util.List;
 
 /**
- * Auto-generated: 2022-05-03 15:24:59
+ * Auto-generated: 2022-05-15 19:14:18
  *
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
-public class Goods {
+public class Albums {
 
-    private int goodsId;
+    private int albumsId;
     private String text;
     private String imageUrl;
     private int spanSize;
     private List<String> banners;
-    public void setGoodsId(int goodsId) {
-        this.goodsId = goodsId;
+    public void setAlbumsId(int albumsId) {
+        this.albumsId = albumsId;
     }
-    public int getGoodsId() {
-        return goodsId;
+    public int getAlbumsId() {
+        return albumsId;
     }
 
     public void setText(String text) {
@@ -53,7 +56,7 @@ public class Goods {
     @Override
     public String toString() {
         return "Goods{" +
-                "goodsId=" + goodsId +
+                "albumsId=" + albumsId +
                 ", text='" + text + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", spanSize=" + spanSize +
