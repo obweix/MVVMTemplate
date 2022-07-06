@@ -16,11 +16,11 @@ import com.example.mvvmapplication.R;
 
 public abstract class BaseFragment extends Fragment {
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
+//    @Nullable
+//    @Override
+//    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        return super.onCreateView(inflater, container, savedInstanceState);
+//    }
 
     public void navigate(android.view.View view,@IdRes int from,@IdRes int to, @Nullable android.os.Bundle args){
         NavOptions navOptions = new NavOptions.Builder()

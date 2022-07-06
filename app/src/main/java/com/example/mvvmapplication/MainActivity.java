@@ -2,8 +2,10 @@ package com.example.mvvmapplication;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.mvvmapplication.ui.dashboard.DashboardFragment;
 import com.example.mvvmapplication.ui.home.HomeFragment;
@@ -28,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
+    NavController mNavController;
+
+    private long mLastBackKeyPressTime = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+        mNavController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
 
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+        mNavController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
                 if(destination.getId() != R.id.navigation_home
@@ -54,9 +60,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        NavigationUI.setupWithNavController(binding.navView, navController);
+
+        NavigationUI.setupWithNavController(binding.navView, mNavController);
+
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK &&  mNavController.getCurrentDestination().getId() == R.id.navigation_home){
+            if(-1 == mLastBackKeyPressTime || System.currentTimeMillis() - mLastBackKeyPressTime  > 2000){
+                mLastBackKeyPressTime = System.currentTimeMillis();
+                Toast.makeText(this,"再按一次退出程序",Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
 
-
+        return super.onKeyUp(keyCode, event);
+    }
 }

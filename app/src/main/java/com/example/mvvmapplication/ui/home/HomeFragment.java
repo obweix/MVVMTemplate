@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.AnimatorRes;
 import androidx.annotation.NonNull;
@@ -38,28 +39,37 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
 
-    private HomeRecyclerViewAdapter homeRecyclerViewAdapter;
-    private HomeSpanSizeLookup homeSpanSizeLookup;
+
 
 
     private void init() {
         binding.homeSwiperefresh.setOnRefreshListener(this);
 
         List<Albums> albums = new ArrayList<Albums>();
+
+
+        if(null == homeViewModel.homeSpanSizeLookup ){
+            homeViewModel.homeSpanSizeLookup = new HomeSpanSizeLookup(albums);
+        }
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 4);
-        homeSpanSizeLookup = new HomeSpanSizeLookup(albums);
-        gridLayoutManager.setSpanSizeLookup(homeSpanSizeLookup);
+        gridLayoutManager.setSpanSizeLookup(homeViewModel.homeSpanSizeLookup);
         binding.homeRecyclerview.setLayoutManager(gridLayoutManager);
 
-        homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(binding.homeRecyclerview,getActivity(),albums);
-        homeRecyclerViewAdapter.setOnItemClickListener(this);
-        binding.homeRecyclerview.setAdapter(homeRecyclerViewAdapter);
+       if(null == homeViewModel.homeRecyclerViewAdapter){
+           homeViewModel.homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(binding.homeRecyclerview,getActivity(),albums);
+           homeViewModel.homeRecyclerViewAdapter.setOnItemClickListener(this);
+           Log.d(TAG, "init: new recycler view adapter");
+       }
+
+        binding.homeRecyclerview.setAdapter(homeViewModel.homeRecyclerViewAdapter);
+
+
 
         homeViewModel.getAlbums().observe(getViewLifecycleOwner(), new Observer<List<Albums>>() {
             @Override
             public void onChanged(List<Albums> albums) {
-                homeSpanSizeLookup.setAlbums(albums);
-                homeRecyclerViewAdapter.setAlbums(albums);
+                homeViewModel.homeSpanSizeLookup.setAlbums(albums);
+                homeViewModel.homeRecyclerViewAdapter.setAlbums(albums);
                 binding.homeSwiperefresh.setRefreshing(false);
 
                 binding.loadingText.setVisibility(View.INVISIBLE);
@@ -75,12 +85,17 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        if(homeViewModel == null){
+            homeViewModel =
+                    new ViewModelProvider(this).get(HomeViewModel.class);
+            Log.d(TAG, "onCreateView: homeViewModel is null");
+        }
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
         init();
+
+        Log.d(TAG, "onCreateView: -----------");
 
         return binding.getRoot();
     }
@@ -91,12 +106,20 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         homeViewModel.cancelGetAlbumsFromNetwork();
         super.onDestroyView();
 
+        Log.d(TAG, "onDestroyView: -------------");
+        
         binding = null;
     }
 
     @Override
+    public void onDestroy() {
+        Log.d(TAG, "onDestroy: -------------");
+        super.onDestroy();
+    }
+
+    @Override
     public void onRefresh() {
-        homeViewModel.getAlbumsFromNetWork();
+            homeViewModel.getAlbumsFromNetWork();
     }
 
     @Override

@@ -36,4 +36,11 @@
         android:label="NaviTest"
         tools:layout="@layout/fragment_test"
         />
+
+    <fragment
+        android:id="@+id/navigation_base_layout"
+        android:name="com.example.mvvmapplication.ui.dashboard.baselayout.BaseLayoutFragment"
+        android:label="NaviBaseLayout"
+        tools:layout="@layout/fragment_test"
+        />
 </navigation>

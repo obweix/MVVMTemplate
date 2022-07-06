@@ -1,5 +1,6 @@
 package com.example.mvvmapplication.ui.home;
 
+import android.accounts.NetworkErrorException;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -8,7 +9,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.mvvmapplication.bean.Albums;
 import com.example.mvvmapplication.bean.BaseBean;
+import com.example.mvvmapplication.ui.home.adapter.HomeRecyclerViewAdapter;
+import com.example.mvvmapplication.ui.home.adapter.HomeSpanSizeLookup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -28,6 +32,12 @@ public class HomeViewModel extends ViewModel {
 
     Disposable mGetGoodsFromNetWorkDisposable;
 
+    public HomeRecyclerViewAdapter homeRecyclerViewAdapter;
+
+    public HomeSpanSizeLookup homeSpanSizeLookup;
+
+
+
     public HomeViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");
@@ -35,6 +45,8 @@ public class HomeViewModel extends ViewModel {
         mAlbums = new MutableLiveData<>();
 
         mHomeModel = new HomeModel();
+
+        Log.d(TAG, "HomeViewModel: is construct");
 
     }
 
@@ -48,20 +60,20 @@ public class HomeViewModel extends ViewModel {
 
 
     public void getAlbumsFromNetWork(){
-         mHomeModel.getAlbums().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<BaseBean<List<Albums>>>() {
-                    @Override
-                    public void accept(BaseBean<List<Albums>> listBaseBean) throws Throwable {
-                        mAlbums.setValue(listBaseBean.getData());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Throwable {
-                        Log.d(TAG, "accept: get goods error");
-                        mAlbums.setValue(null);
-                    }
-                });
+            mHomeModel.getAlbums().subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<BaseBean<List<Albums>>>() {
+                        @Override
+                        public void accept(BaseBean<List<Albums>> listBaseBean) throws Throwable {
+                            mAlbums.setValue(listBaseBean.getData());
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Throwable {
+                            Log.d(TAG, "accept: get goods error");
+                            mAlbums.setValue(new ArrayList<>());
+                        }
+                    });
     }
 
     public void cancelGetAlbumsFromNetwork(){
