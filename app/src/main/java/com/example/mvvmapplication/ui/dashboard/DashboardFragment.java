@@ -103,8 +103,11 @@ public class DashboardFragment extends BaseFragment {
             @Override
             public void onItemClick(View itemView, int pos) {
                 Toast.makeText(getContext(), "click position=" + pos, Toast.LENGTH_SHORT).show();
-                if(1 == pos){
+                if(0 == pos){
                     navigate(getView(),R.id.navigation_dashboard,R.id.navigation_base_layout,null);
+                }
+                if(1 == pos){
+                    navigate(getView(),R.id.navigation_dashboard,R.id.navigation_chart,null);
                 }
             }
         });
@@ -117,11 +120,8 @@ public class DashboardFragment extends BaseFragment {
 //                "Metabolism", "Nuturally", "Bracket", "Refrigerator", "Bathtub", "Wardrobe", "Comb", "Apron", "Carpet", "Bolster", "Pillow", "Cushion"));
         List<String> data= new ArrayList<>();
         data.add("基础布局");
-        data.add("基础布局");
-        data.add("基础布局");
-        data.add("基础布局");
-        data.add("基础布局");
-        data.add("基础布局");
+        data.add("图表");
+
 //        Collections.shuffle(data);
         mAdapter.setData(data);
     }

@@ -113,7 +113,12 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "onDestroy: -------------");
+        Log.d(TAG, "onDestroy:");
+        if(homeViewModel != null){
+            homeViewModel.homeRecyclerViewAdapter = null;
+            homeViewModel.homeSpanSizeLookup = null;
+        }
+
         super.onDestroy();
     }
 

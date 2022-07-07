@@ -43,4 +43,11 @@
         android:label="NaviBaseLayout"
         tools:layout="@layout/fragment_test"
         />
+
+    <fragment
+        android:id="@+id/navigation_chart"
+        android:name="com.example.mvvmapplication.ui.dashboard.chart.ChartFragment"
+        android:label="NavChart"
+        tools:layout="@layout/fragment_chart"
+        />
 </navigation>
