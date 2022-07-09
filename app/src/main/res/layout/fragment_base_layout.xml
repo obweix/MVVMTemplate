@@ -20,17 +20,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
-            android:text="test1"
+            android:text="打开对话框"
+            android:id="@+id/openDialog"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <Button
-            android:text="test2"
+            android:text="BottomSheet"
+            android:id="@+id/openBottomSheet"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <Button
-            android:text="test3"
+            android:text="显式浮层"
+            android:id="@+id/showPopups"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -87,10 +90,16 @@
 
     <!--可定义响应事件-->
     <com.example.mvvmapplication.ui.dashboard.baselayout.CustomTitle
+        android:id="@+id/eventCustomLayout"
         app:layout_constraintTop_toBottomOf="@+id/layoutInclude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+
+    <com.example.mvvmapplication.ui.dashboard.baselayout.CustomDrawWidget
+        app:layout_constraintTop_toBottomOf="@+id/eventCustomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
