@@ -1,5 +1,7 @@
 package com.example.mvvmapplication.bean.network;
 
+import android.os.Environment;
+
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;

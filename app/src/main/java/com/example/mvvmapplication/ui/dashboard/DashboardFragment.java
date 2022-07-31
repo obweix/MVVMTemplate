@@ -109,6 +109,9 @@ public class DashboardFragment extends BaseFragment {
                 if(1 == pos){
                     navigate(getView(),R.id.navigation_dashboard,R.id.navigation_chart,null);
                 }
+                if(2 == pos){
+                    navigate(getView(),R.id.navigation_dashboard,R.id.navigation_big_image,null);
+                }
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -121,6 +124,7 @@ public class DashboardFragment extends BaseFragment {
         List<String> data= new ArrayList<>();
         data.add("基础布局");
         data.add("图表");
+        data.add("巨图加载方案");
 
 //        Collections.shuffle(data);
         mAdapter.setData(data);

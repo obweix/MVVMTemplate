@@ -1,5 +1,6 @@
 package com.example.mvvmapplication.ui.dashboard.baselayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mvvmapplication.R;
+import com.example.mvvmapplication.TestActivity;
 import com.example.mvvmapplication.databinding.FragmentBaseLayoutBinding;
 import com.example.mvvmapplication.ui.base.BaseFragment;
 import com.qmuiteam.qmui.skin.QMUISkinHelper;
@@ -57,6 +59,13 @@ public class BaseLayoutFragment extends BaseFragment {
            @Override
            public void onClick(View v) {
                showPopups(v);
+           }
+       });
+
+       mBinding.test4.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+                startActivity(new Intent(getContext(), TestActivity.class));
            }
        });
 

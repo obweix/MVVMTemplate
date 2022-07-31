@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                         && destination.getId() != R.id.navigation_dashboard
                         && destination.getId() != R.id.navigation_notifications
                 ){
-                    navView.setVisibility(View.INVISIBLE);
+                    navView.setVisibility(View.GONE);
                 }else{
                     navView.setVisibility(View.VISIBLE);
                 }

@@ -50,4 +50,12 @@
         android:label="NavChart"
         tools:layout="@layout/fragment_chart"
         />
+
+    <fragment
+        android:id="@+id/navigation_big_image"
+        android:name="com.example.mvvmapplication.ui.dashboard.bigimage.BigImageFragment"
+        android:label="NavBigImage"
+        tools:layout="@layout/fragment_big_image"
+        />
+
 </navigation>
